@@ -34,13 +34,18 @@ class Item {
       this.updateQualityAfterExpiration();
     }
   }
-
+  increaseQulity() {
+    this.quality = this.quality + 1;
+  }
+  decreaseQulity() {
+    this.quality = this.quality - 1;
+  }
   updateQuality() {
     if (!this.isBoolAgedBire() || !this.isBoolBackstagePass()) { 
       if(this.quality >= 50) {
         return
       }
-      this.quality = this.quality + 1;
+      this.increaseQulity()
       if(this.isBoolBackstagePass()) {
         return
       }
@@ -50,22 +55,23 @@ class Item {
       if(this.quality >= 50) {
         return
       }
-      this.quality = this.quality + 1;
+      this.increaseQulity()
       if(this.sellIn >= 6) {
         return
       }
       if(this.quality >= 50) {
         return
       }
-      this.quality = this.quality + 1;
+      this.increaseQulity()
       return
     }
     if (this.quality <= 0) {
       return
     }
-    if (this.isBoolSulfuras()) {
-      this.quality = this.quality - 1;
+    if(!this.isBoolSulfuras()) {
+      return
     }
+    this.decreaseQulity()
   }
 
   updateQualityAfterExpiration() {
@@ -73,7 +79,7 @@ class Item {
       return
     }
     if (this.quality < 50) {
-      this.quality = this.quality + 1;
+      this.increaseQulity()
     }
     if(!this.isBoolBackstagePass()) {
       this.quality = this.quality - this.quality;
@@ -83,7 +89,7 @@ class Item {
       return
     }
     if (this.isBoolSulfuras()) {
-      this.quality = this.quality - 1;
+      this.decreaseQulity()
     }
   }
 
