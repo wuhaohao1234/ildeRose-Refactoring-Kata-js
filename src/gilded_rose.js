@@ -1,11 +1,11 @@
 class Item {
-  constructor(name, sellIn, quality){
+  constructor(name, sellIn, quality) {
     this.name = name;
     this.sellIn = sellIn;
     this.quality = quality;
   }
   isBoolAgedBire() {
-    return this.name != 'Aged Brie'    
+    return this.name != 'Aged Brie'
   }
   isBoolBackstagePass() {
     return this.name != 'Backstage passes to a TAFKAL80ETC concert'
@@ -13,57 +13,76 @@ class Item {
   isBoolSulfuras() {
     return this.name != 'Sulfuras, Hand of Ragnaros'
   }
+  passOneDay() {
+    this.updateQuality();
+    this.updateSellIn();
+    if (this.isExpired()) {
+      this.updateQualityAfterExpiration();
+    }
+  }
+
+  updateQuality() {
+    if (this.isBoolAgedBire() && this.isBoolBackstagePass()) {
+      if (this.quality > 0) {
+        if (this.isBoolSulfuras()) {
+          this.quality = this.quality - 1;
+        }
+      }
+    } else {
+      if (this.quality < 50) {
+        this.quality = this.quality + 1;
+        if (!this.isBoolBackstagePass()) {
+          if (this.sellIn < 11) {
+            if (this.quality < 50) {
+              this.quality = this.quality + 1;
+            }
+          }
+          if (this.sellIn < 6) {
+            if (this.quality < 50) {
+              this.quality = this.quality + 1;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  updateQualityAfterExpiration() {
+    if (this.name != 'Aged Brie') {
+      if (this.isBoolBackstagePass()) {
+        if (this.quality > 0) {
+          if (this.isBoolSulfuras()) {
+            this.quality = this.quality - 1;
+          }
+        }
+      } else {
+        this.quality = this.quality - this.quality;
+      }
+    } else {
+      if (this.quality < 50) {
+        this.quality = this.quality + 1;
+      }
+    }
+  }
+
+  isExpired() {
+    return this.sellIn < 0;
+  }
+
+  updateSellIn() {
+    if (this.isBoolSulfuras()) {
+      this.sellIn = this.sellIn - 1;
+    }
+  }
 }
 
 class Shop {
-  constructor(items=[]){
+  constructor(items = []) {
     this.items = items;
   }
   passOneDay() {
     for (let i = 0; i < this.items.length; i++) {
-      if (this.items[i].isBoolAgedBire() && this.items[i].isBoolBackstagePass()) {
-        if (this.items[i].quality > 0) {
-          if (this.items[i].isBoolSulfuras()) {
-            this.items[i].quality = this.items[i].quality - 1;
-          }
-        }
-      } else {
-        if (this.items[i].quality < 50) {
-          this.items[i].quality = this.items[i].quality + 1;
-          if (!this.items[i].isBoolBackstagePass()) {
-            if (this.items[i].sellIn < 11) {
-              if (this.items[i].quality < 50) {
-                this.items[i].quality = this.items[i].quality + 1;
-              }
-            }
-            if (this.items[i].sellIn < 6) {
-              if (this.items[i].quality < 50) {
-                this.items[i].quality = this.items[i].quality + 1;
-              }
-            }
-          }
-        }
-      }
-      if (this.items[i].isBoolSulfuras()) {
-        this.items[i].sellIn = this.items[i].sellIn - 1;
-      }
-      if (this.items[i].sellIn < 0) {
-        if (this.items[i].name != 'Aged Brie') {
-          if (this.items[i].isBoolBackstagePass()) {
-            if (this.items[i].quality > 0) {
-              if (this.items[i].isBoolSulfuras()) {
-                this.items[i].quality = this.items[i].quality - 1;
-              }
-            }
-          } else {
-            this.items[i].quality = this.items[i].quality - this.items[i].quality;
-          }
-        } else {
-          if (this.items[i].quality < 50) {
-            this.items[i].quality = this.items[i].quality + 1;
-          }
-        }
-      }
+      this.items[i].passOneDay()
     }
 
     return this.items;
