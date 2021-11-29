@@ -6,7 +6,7 @@ const str = fs.readFileSync('./test/base_line.txt').toString()
 describe("Gilded Rose", function () {
   it("should foo", function () {
     const gildedRose = new Shop([new Item("foo", 0, 0)]);
-    const items = gildedRose.updateQuality();
+    const items = gildedRose.passOneDay();
     expect(items[0].name).toBe("foo");
   });
   it("log str equal base_line", function () {
@@ -39,7 +39,7 @@ describe("Gilded Rose", function () {
       log(`\n-------- day ${day} --------`);
       log("name, sellIn, quality");
       items.forEach(item => log(`${item.name}, ${item.sellIn}, ${item.quality}`));
-      gildedRose.updateQuality();
+      gildedRose.passOneDay();
     }
     expect(log('')).toBe(str)
   });

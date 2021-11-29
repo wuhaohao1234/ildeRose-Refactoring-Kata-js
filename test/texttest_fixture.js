@@ -29,6 +29,6 @@ for (let day = 0; day < days; day++) {
   log(`\n-------- day ${day} --------`);
   log("name, sellIn, quality");
   items.forEach(item => log(`${item.name}, ${item.sellIn}, ${item.quality}`));
-  gildedRose.updateQuality();
+  gildedRose.passOneDay();
 }
 console.log(log(''))
