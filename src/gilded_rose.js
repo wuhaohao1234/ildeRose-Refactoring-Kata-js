@@ -82,7 +82,7 @@ class Item {
       this.increaseQulity()
     }
     if(!this.isBoolBackstagePass()) {
-      this.quality = this.quality - this.quality;
+      this.decreaseQulity()
       return
     }
     if(this.quality <= 0) {
