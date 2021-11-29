@@ -1,3 +1,5 @@
+// const BackstagePass = require('./items/backstage-pass')
+
 class Item {
   constructor(name, sellIn, quality) {
     this.name = name;
@@ -5,25 +7,25 @@ class Item {
     this.quality = quality;
   }
   static createBackstagePass(sellIn, quality) {
-    return new Item('Backstage passes to a TAFKAL80ETC concert', sellIn, quality)
+    return new BackstagePass(sellIn, quality)
   }
   static createSulfuras(sellIn, quality) {
-    return new Item('Sulfuras, Hand of Ragnaros', sellIn, quality)
+    return new Sulfuras(sellIn, quality)
   }
   static createAgeBire(sellIn, quality) {
-    return new Item('Aged Brie', sellIn, quality)
+    return new AgeBire(sellIn, quality)
   }
   static createNormalItem(name, sellIn, quality) {
     return new Item(name, sellIn, quality)
   }
   isBoolAgedBire() {
-    return this.name != 'Aged Brie'
+    return true
   }
   isBoolBackstagePass() {
     return this.name != 'Backstage passes to a TAFKAL80ETC concert'
   }
   isBoolSulfuras() {
-    return this.name != 'Sulfuras, Hand of Ragnaros'
+    return true
   }
   passOneDay() {
     this.updateQuality();
@@ -98,6 +100,30 @@ class Shop {
     }
 
     return this.items;
+  }
+}
+class BackstagePass extends Item {
+  constructor(sellIn, quality) {
+    super('Backstage passes to a TAFKAL80ETC concert', sellIn, quality)
+  }
+  isBoolBackstagePass() {
+    return false
+  }
+}
+class Sulfuras extends Item {
+  constructor(sellIn, quality) {
+    super('Sulfuras, Hand of Ragnaros', sellIn, quality)
+  }
+  isBoolSulfuras() {
+    return false
+  }
+}
+class AgeBire extends Item {
+  constructor(sellIn, quality) {
+    super('Aged Brie', sellIn, quality)
+  }
+  isBoolAgedBire() {
+    return false
   }
 }
 
