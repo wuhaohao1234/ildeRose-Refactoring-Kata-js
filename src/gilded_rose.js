@@ -36,46 +36,54 @@ class Item {
   }
 
   updateQuality() {
-    if (this.isBoolAgedBire() && this.isBoolBackstagePass()) {
-      if (this.quality > 0) {
-        if (this.isBoolSulfuras()) {
-          this.quality = this.quality - 1;
-        }
+    if (!this.isBoolAgedBire() || !this.isBoolBackstagePass()) { 
+      if(this.quality >= 50) {
+        return
       }
-    } else {
-      if (this.quality < 50) {
-        this.quality = this.quality + 1;
-        if (!this.isBoolBackstagePass()) {
-          if (this.sellIn < 11) {
-            if (this.quality < 50) {
-              this.quality = this.quality + 1;
-            }
-          }
-          if (this.sellIn < 6) {
-            if (this.quality < 50) {
-              this.quality = this.quality + 1;
-            }
-          }
-        }
+      this.quality = this.quality + 1;
+      if(this.isBoolBackstagePass()) {
+        return
       }
+      if(this.sellIn >= 11) {
+        return
+      }
+      if(this.quality >= 50) {
+        return
+      }
+      this.quality = this.quality + 1;
+      if(this.sellIn >= 6) {
+        return
+      }
+      if(this.quality >= 50) {
+        return
+      }
+      this.quality = this.quality + 1;
+      return
+    }
+    if (this.quality <= 0) {
+      return
+    }
+    if (this.isBoolSulfuras()) {
+      this.quality = this.quality - 1;
     }
   }
 
   updateQualityAfterExpiration() {
-    if (this.name != 'Aged Brie') {
-      if (this.isBoolBackstagePass()) {
-        if (this.quality > 0) {
-          if (this.isBoolSulfuras()) {
-            this.quality = this.quality - 1;
-          }
-        }
-      } else {
-        this.quality = this.quality - this.quality;
-      }
-    } else {
-      if (this.quality < 50) {
-        this.quality = this.quality + 1;
-      }
+    if(this.isBoolAgedBire()) {
+      return
+    }
+    if (this.quality < 50) {
+      this.quality = this.quality + 1;
+    }
+    if(!this.isBoolBackstagePass()) {
+      this.quality = this.quality - this.quality;
+      return
+    }
+    if(this.quality <= 0) {
+      return
+    }
+    if (this.isBoolSulfuras()) {
+      this.quality = this.quality - 1;
     }
   }
 
